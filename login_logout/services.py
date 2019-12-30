@@ -19,5 +19,10 @@ class CreateFacebookService(Service):
 
         return user
 
+class GetFacebookService(Service):
+    def process(self):
+        gt_user = Facebook.objects.all()
+        return gt_user
+
 
 
