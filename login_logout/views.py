@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -41,3 +42,12 @@ class LoginView(APIView):
     def delete(self, request, pk=None):
         DeleteFacebookService.execute({'pk':pk})
         return Response({'message':'Deleted'}, status=200)
+
+
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
