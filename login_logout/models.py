@@ -17,7 +17,7 @@ class Facebook(AbstractUser):
     hometown = models.CharField(max_length=200, default='')
     #email = models.CharField(max_length=200, default='', db_index=True)
     gender = models.CharField(max_length=200, default='')
-    dob = models.DateField(null=True, blank=True)
+    birthdate = models.DateField(null=True, blank=True)
     location = models.CharField(max_length=200, default='')
     #timezone = models.CharField(max_length=200, default='')
     #accesstoken = models.CharField(max_length=2000, default='')
