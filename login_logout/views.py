@@ -1,30 +1,33 @@
+import email
+
 from django.shortcuts import render
-from rest_framework import status, permissions
+from rest_framework import permissions, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+
 from .models import Facebook
 from .serializers import FacebookSerializer
-from .services import (CreateFacebookService, GetFacebookService, PatchFacebookService, DeleteFacebookService)
-
+from .services import (CreateFacebookService, DeleteFacebookService,
+                       GetFacebookService, PatchFacebookService)
 
 # Create your views here.
 
 
-
 class LoginView(APIView):
     permission_classes = (IsAuthenticated,)
-    def post(self, request):
+
+    def post(self, request, email=None):
         data = request.data
         serializer = FacebookSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            fb_service = CreateFacebookService.execute({'data': request.data})
-            return Response(serializer.data, status=201)
+                fb_service = CreateFacebookService.execute({"data": request.data})
+                return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
 
     def get(self, request, pk=None):
-        get_user = GetFacebookService.execute({'pk': pk})
+        get_user = GetFacebookService.execute({"pk": pk})
         if pk:
             serializer = FacebookSerializer(get_user)
         else:
@@ -35,19 +38,19 @@ class LoginView(APIView):
         update_user = request.data
         serializer = FacebookSerializer(data=update_user, partial=True)
         if serializer.is_valid():
-            PatchFacebookService.execute({'update_user': update_user})
+            PatchFacebookService.execute({"update_user": update_user})
             return Response(serializer.data, status=201)
-        return Response(serializer.errors, status= 400)
+        return Response(serializer.errors, status=400)
 
     def delete(self, request, pk=None):
-        DeleteFacebookService.execute({'pk':pk})
-        return Response({'message':'Deleted'}, status=200)
+        DeleteFacebookService.execute({"pk": pk})
+        return Response({"message": "Deleted"}, status=200)
 
 
 class LogoutView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
     def post(self, request, format=None):
         # simply delete the token to force a login
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
-
