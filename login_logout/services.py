@@ -10,45 +10,26 @@ class CreateFacebookService(Service):
     def process(self):
         data = self.data
         email=data.get('data').get('email')
-        all_emails = Facebook.objects.all().values('email')
+        email_exist = Facebook.objects.filter(email=email).exists()
+        if email_exist:
+            return email
+            #return Response("email already taken")
+        else:                                                           # create object when email and username not existing
+            user = Facebook.objects.create(
+            first_name=self.data.get("data").get("first_name"),
+            last_name=self.data.get("data").get("last_name"),
+            email=self.data.get("data").get("email"),
+            name=self.data.get("data").get("name"),
+            language=self.data.get("data").get("language"),
+            gender=self.data.get("data").get("gender"),
+            birthdate=self.data.get("data").get("birthdate"),
+            location=self.data.get("data").get("location"),
+            username=self.data.get("data").get("username"),
+            hometown=self.data.get("data").get("hometown"),
+        )
+        user.set_password(self.data.get("data").get("password"))
+        user.save()
 
-        for emails_id in all_emails:
-            if emails_id==email:
-                breakpoint()
-                return Response('already exists')
-            else:
-                user = Facebook.objects.create(
-                    first_name=self.data.get("data").get("first_name"),
-                    last_name=self.data.get("data").get("last_name"),
-                    email=self.data.get("data").get("email"),
-                    name=self.data.get("data").get("name"),
-                    language=self.data.get("data").get("language"),
-                    gender=self.data.get("data").get("gender"),
-                    birthdate=self.data.get("data").get("birthdate"),
-                    location=self.data.get("data").get("location"),
-                    username=self.data.get("data").get("username"),
-                    hometown=self.data.get("data").get("hometown"),
-                )
-                user.set_password(self.data.get("data").get("password"))
-                user.save()
-
-        # email=user.email
-        # for email in Facebook.objects.all():
-        #
-        #
-        #
-        #         return user
-        #     else:
-        #         create_user = Facebook.objects.create(first_name='first_name',
-        #                                               last_name='last_name',
-        #                                               email='email',
-        #                                               name='name',
-        #                                               language='language',
-        #                                               gender='gender',
-        #                                               birthdate='birthdate',
-        #                                               location='location',
-        #                                               username='username',
-        #                                               hometown='hometown')
         return user
 
 
