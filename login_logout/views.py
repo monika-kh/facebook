@@ -1,5 +1,3 @@
-import email
-
 from django.shortcuts import render
 from rest_framework import permissions, status
 from rest_framework.permissions import IsAuthenticated
@@ -21,10 +19,9 @@ class LoginView(APIView):
         data = request.data
         serializer = FacebookSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-                fb_service = CreateFacebookService.execute({"data": request.data})
-                return Response(serializer.data, status=201)
+            fb_service = CreateFacebookService.execute({"data": request.data})
+            return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
-
 
     def get(self, request, pk=None):
         get_user = GetFacebookService.execute({"pk": pk})
