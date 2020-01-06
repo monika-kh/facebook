@@ -1,5 +1,7 @@
 import email
 
+from django.conf import settings
+from django.core.mail import send_mail
 from rest_framework.response import Response
 from service_objects.services import Service
 
@@ -9,28 +11,37 @@ from .models import Facebook
 class CreateFacebookService(Service):
     def process(self):
         data = self.data
+
         email=data.get('data').get('email')
+
         email_exist = Facebook.objects.filter(email=email).exists()
         if email_exist:
             return email
             #return Response("email already taken")
         else:                                                           # create object when email and username not existing
             user = Facebook.objects.create(
-            first_name=self.data.get("data").get("first_name"),
-            last_name=self.data.get("data").get("last_name"),
-            email=self.data.get("data").get("email"),
-            name=self.data.get("data").get("name"),
-            language=self.data.get("data").get("language"),
-            gender=self.data.get("data").get("gender"),
-            birthdate=self.data.get("data").get("birthdate"),
-            location=self.data.get("data").get("location"),
-            username=self.data.get("data").get("username"),
-            hometown=self.data.get("data").get("hometown"),
-        )
-        user.set_password(self.data.get("data").get("password"))
-        user.save()
+                first_name=self.data.get("data").get("first_name"),
+                last_name=self.data.get("data").get("last_name"),
+                email=self.data.get("data").get("email"),
+                name=self.data.get("data").get("name"),
+                language=self.data.get("data").get("language"),
+                gender=self.data.get("data").get("gender"),
+                birthdate=self.data.get("data").get("birthdate"),
+                location=self.data.get("data").get("location"),
+                username=self.data.get("data").get("username"),
+                hometown=self.data.get("data").get("hometown"),
+            )
 
-        return user
+            user.set_password(self.data.get("data").get("password"))
+            user.save()
+
+            #email = user.email
+            to_email = user.email
+            subject = "FB id created"
+            message = "Welcome to Facebook"
+            send_mail(subject, message, from_email=settings.EMAIL_HOST_USER,recipient_list=[to_email], html_message=message)
+
+            return user
 
 
 class GetFacebookService(Service):
