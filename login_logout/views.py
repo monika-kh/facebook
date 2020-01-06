@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render
 from rest_framework import permissions, status
 from rest_framework.permissions import IsAuthenticated
@@ -8,6 +10,7 @@ from .models import Facebook
 from .serializers import FacebookSerializer
 from .services import (CreateFacebookService, DeleteFacebookService,
                        GetFacebookService, PatchFacebookService)
+
 
 # Create your views here.
 
@@ -51,3 +54,16 @@ class LogoutView(APIView):
         # simply delete the token to force a login
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+class Send_MailView(APIView):
+    def post(self, request):
+
+        email_msg = request.data.get("message")
+        email_sub = request.data.get("subject")
+        # user_in = Facebook.objects.all()
+        send_mail(email_msg, email_sub, from_email=settings.EMAIL_HOST_USER, recipient_list=['to_email'])
+        return Response('Mail successfully sent')
+
+
+
