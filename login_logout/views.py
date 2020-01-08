@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Facebook
-from .serializers import FacebookSerializer#, PasswordSerializer
+from .serializers import FacebookSerializer
 from .services import (CreateFacebookService, DeleteFacebookService,
                        GetFacebookService, PatchFacebookService)
 
@@ -46,27 +46,6 @@ class LoginView(APIView):
             PatchFacebookService.execute({"update_user": update_user})
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
-
-
-
-
-    # def patch(self, request, pk=None, user_password=None):
-    #     update_user = request.data
-    #     serializer =   PasswordSerializer(data=update_user, partial=True)
-    #     if serializer.is_valid():
-    #         PatchFacebookService.execute({"update_user": update_user})
-    #
-    #         if not user_password.check_password(serializer.data.get('old_password')):
-    #             return Response({'old_password': ['Wrong password.']},
-    #                             status=status.HTTP_400_BAD_REQUEST)
-    #
-    #         return Response(serializer.data, status=201)
-    #     return Response(serializer.errors, status=400)
-
-
-
-
-
 
 
     def delete(self, request, pk=None):
