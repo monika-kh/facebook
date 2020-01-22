@@ -23,6 +23,7 @@ class LoginView(APIView):
         serializer = FacebookSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             fb_service = CreateFacebookService.execute({"data": request.data})
+            serializer = FacebookSerializer(fb_service)               # serializer added to save post data from services
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
