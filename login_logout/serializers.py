@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from . models import Facebook
+from .models import Facebook
 
 
 class FacebookSerializer(serializers.ModelSerializer):
@@ -8,5 +8,5 @@ class FacebookSerializer(serializers.ModelSerializer):
         model = Facebook
         fields = "__all__"
         extra_kwargs = {
-           'password': {'default': 'password', "write_only": "True"},
-         }
+            "password": {"default": "password", "write_only": "True"},
+        }

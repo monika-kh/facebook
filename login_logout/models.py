@@ -1,6 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.db import models
 
 # Create your models here.
 
@@ -12,12 +11,12 @@ class Facebook(AbstractUser):
     # first_name = models.CharField(max_length=200, default='')
     # last_name = models.CharField(max_length=200, default='')
     # verified = models.CharField(max_length=200, default='')
-    name = models.CharField(max_length=200, default='')
-    language = models.CharField(max_length=200, default='')
-    hometown = models.CharField(max_length=200, default='')
+    name = models.CharField(max_length=200, default="")
+    language = models.CharField(max_length=200, default="")
+    hometown = models.CharField(max_length=200, default="")
     # email = models.CharField(max_length=200, default='', db_index=True)
-    gender = models.CharField(max_length=200, default='')
+    gender = models.CharField(max_length=200, default="")
     birthdate = models.DateField(null=True, blank=True)
-    location = models.CharField(max_length=200, default='')
+    location = models.CharField(max_length=200, default="")
     # timezone = models.CharField(max_length=200, default='')
     # accesstoken = models.CharField(max_length=2000, default='')
