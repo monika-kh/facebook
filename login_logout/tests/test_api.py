@@ -3,7 +3,7 @@
 from rest_framework.test import APITestCase, APIRequestFactory, APIClient
 from rest_framework.authtoken.models import Token
 from rest_framework.test import force_authenticate
-# from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 from .. import views
 from ..models import Facebook
@@ -14,15 +14,14 @@ from ..models import Facebook
 
 class LoginTest(APITestCase):
     def setUp(self):
-        self.factory = APIRequestFactory()
+        request = APIClient()
         self.user = Facebook.objects.create_user(username='test', password='test123')
         self.token = Token.objects.create(user=self.user)
         self.token.save()
 
     def test_token_auth(self):
-        request = self.factory.get('/fb/login/')
-        force_authenticate(request, user=self.user, token=self.user.auth_token)
-        view = views.LoginView.as_view()
-        response = view(request)
-        self.assertEqual(response.status_code, 200)
+        res = self.client.login(username='test', password='test123')
+        self.assertTrue(res)
+        breakpoint()
+
 
