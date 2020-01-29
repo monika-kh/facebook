@@ -18,7 +18,7 @@ class FacebookFactory(factory.Factory):
     language = factory.fuzzy.FuzzyText(length=50)
     hometown = factory.fuzzy.FuzzyText(length=50)
     gender = factory.fuzzy.FuzzyText(length=50)
-    birthdate = factory.fuzzy.FuzzyDate(`datetime.date(1900, 1, 1)`)
+    birthdate = factory.fuzzy.FuzzyDate(datetime.date(1900, 1, 1))
     location = factory.fuzzy.FuzzyText(length=50)
 
     # first_name = factory.Sequence(lambda n: 'first_name_{}'.format(n))
