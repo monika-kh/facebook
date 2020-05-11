@@ -16,7 +16,7 @@ from .services import (CreateFacebookService, DeleteFacebookService,
 class LoginView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, email=None):
+    def post(self, request):
         serializer = FacebookSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             fb_service = CreateFacebookService.execute({"data": request.data})
