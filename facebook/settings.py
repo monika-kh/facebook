@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-#import django_heroku
+# import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',          # as admin is already in material admin.
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'login_logout',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'material.admin',
+    'material.admin.default',
 ]
 
 MIDDLEWARE = [
@@ -131,7 +133,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = '<your email_id>'
-EMAIL_HOST_PASSWORD = '<your password>'
+EMAIL_HOST_USER = 'kkdjangocelery@gmail.com'
+EMAIL_HOST_PASSWORD = 'idealittechno@123'
 
-#django_heroku.settings(locals())
+# django_heroku.settings(locals())
